@@ -127,18 +127,38 @@ const App = () => {
   });
 
   const [score, setScore] = useState(0);
-
+  
   const changeChar = () => {
-    
+      let list = characters[Math.floor(Math.random() * characters.length)];
+      let list1 = characters[Math.floor(Math.random() * characters.length)]
+      let list2 = characters[Math.floor(Math.random() * characters.length)]
+      let list3 = characters[Math.floor(Math.random() * characters.length)]
+      let opt = [list1,list2,list,list3]
+      let t = [opt[2].name, opt[1].name,opt[0].name,opt[3].name]
+      console.log(t)
+      const newlist = {
+        ...currChar
+      }
+      newlist.name = list.name
+      newlist.role = list.role
+      newlist.abilities = list.abilities
+      newlist.options = t
+      setCurrChar(newlist)
   };
+  
 
   const scoreHandler = (e) => {
-   
+       console.log(e.target.innerText)
+       console.log(currChar.name)
+       if(e.target.innerText === currChar.name)
+       setScore(score+1)
+       else
+       setScore(score-1)
   };
-
+ 
   useEffect(() => {
-   
-  });
+    changeChar();
+  },[score]);
   return (
     <div id="main">
       <div className="container">
@@ -147,13 +167,17 @@ const App = () => {
           <div className="score" id='score'>Score: {score}</div>
           <h3>The character has the following abilities:</h3>
           <h4>Role: {currChar.role}</h4>
+          
           {currChar.abilities.join()}
+          
           <div className="options">
-            {currChar.options.map((option) => (
-              <button   onClick={scoreHandler}>
-                {option.name}
+            {currChar.options.map((option,idx) => {
+             return ( <button key={idx}  onClick={(e)=>scoreHandler(e)}>
+                {option}
               </button>
-            ))}
+             )
+             })}
+             
           </div>
         </div>
       </div>
